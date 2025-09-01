@@ -1,74 +1,83 @@
-# Cabeçalho em um arquivo Python:
-# Não é algo obrigatório pela linguagem, mas sim uma convenção que desenvolvedores usam para documentar informações gerais sobre o arquivo.
-# Normalmente colocado nas primeiras linhas do arquivo, antes mesmo dos imports.
-# Pode incluir:
-# Nome do arquivo
-# Autor(es)
-# Data de criação
-# Descrição do objetivo do arquivo
-# Versão, licença etc.
-# Cabeçalho é mais voltado à documentação do arquivo em si.
 
-#Doc String:
-# É uma string especial de documentação em Python.
-# Diferente de um comentário comum, ela pode ser acessada em tempo de execução via help() ou obj.__doc__.
-# Usada em:
-# Módulos (arquivo inteiro)
-# Classes
-# Funções e método
-# Docstring é voltada à documentação do código executável (funções, classes, módulos).
+"""
+Exercícios de Funções Python
 
-# Cabeçalho: comentário simples, não acessível em tempo de execução, usado para metadados do arquivo.
-# Docstring: string de documentação, acessível em runtime, usada para explicar o propósito e uso de módulos, classes e funções.
+Este módulo contém implementações de funções básicas para praticar
+conceitos fundamentais de programação em Python.
 
-
-# formate o cabeçalho deste arquivo, e complete as funções abaixo
-
-def e_par(n: int) -> bool:
-    """Retorna True se n é par, senão False."""
-    # TODO: retorne se n é par
-    ...
-
-def fatorial(n: int) -> int:
-    """Retorna n! (n fatorial). Para n<0, levante ValueError."""
-    # TODO: implemente de forma iterativa (sem recursão)
-    ...
-
-def maximo(nums):
-    """Retorna o maior elemento de uma lista não vazia, sem usar max()."""
-    # TODO: percorra a lista guardando o maior atual
-    ...
+Autor: Gabriel Becker
+Data: 01/09/2025
+Versão: 1.0
+"""
 
 import re
 
+
+def e_par(n: int) -> bool:
+    """Retorna True se n é par, senão False."""
+    return n % 2 == 0
+
+
+def fatorial(n: int) -> int:
+    """Retorna n! (n fatorial). Para n<0, levante ValueError."""
+    if n < 0:
+        raise ValueError("Fatorial não é definido para números negativos")
+    
+    resultado = 1
+    for i in range(1, n + 1):
+        resultado *= i
+    return resultado
+
+
+def maximo(nums):
+    """Retorna o maior elemento de uma lista não vazia, sem usar max()."""
+    if not nums:
+        raise ValueError("Lista não pode estar vazia")
+    
+    maior = nums[0]
+    for num in nums[1:]:
+        if num > maior:
+            maior = num
+    return maior
+
+
 def limpa_texto(s: str) -> str:
     """Deixa minúsculo e remove pontuação comum."""
-    # TODO: converta s para minúsculo e remova pontuações como ,.;:!?'"()-_
-    ...
+
+    s_limpo = s.lower()
+
+    pontuacoes = r'[,.;:!?\'"()\-_]'
+    s_limpo = re.sub(pontuacoes, '', s_limpo)
+    return s_limpo
+
 
 def conta_vogais(s: str) -> int:
     """Conta vogais (a,e,i,o,u) em s (desconsidere acentos)."""
-    # TODO: conte as vogais simples
-    ...
+    vogais = 'aeiou'
+    contador = 0
+    for char in s.lower():
+        if char in vogais:
+            contador += 1
+    return contador
+
 
 def palindromo(s: str) -> bool:
     """Retorna True se s é palíndromo ignorando espaços e pontuação."""
-    # TODO: normalizar (minúsculo, remover não alfanumérico) e comparar com o reverso
-    ...
+
+    s_normalizado = re.sub(r'[^a-zA-Z0-9]', '', s.lower())
+
+    return s_normalizado == s_normalizado[::-1]
+
 
 def total_por_vendedor(vendas):
     """
     vendas: lista de tuplas (nome, valor).
     Retorna: dict {nome: soma_valores}
     """
-    # TODO: inicialize um dict e vá somando
-    ...
-
-def melhor_vendedor(totais: dict):
-    """
-    Retorna (nome, total) com o maior total.
-    Se dict vazio, levante ValueError.
-    """
-    # TODO: encontre o par com maior total (sem ordenar a lista inteira)
-    ...
-
+    totais = {}
+    for nome, valor in vendas:
+        if nome in totais:
+            totais[nome] += valor
+        else:
+            totais[nome] = valor
+    return totais
